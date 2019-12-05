@@ -47,9 +47,13 @@ const Dashboard = () => {
 
   const fetchEquipament = async (_loading = true) => {
     setLoading(_loading);
-    const { data } = await api.get(`?${paramsUrl}[dbo].[spQDataStatusMachineEquipamentos]`);
 
-    setOriginalData(data);
+    const userID = localStorage.getItem('StatusMachine@authenticated');
+    const { data } = await api.get(`?${paramsUrl}[dbo].[spQDataStatusMachineEquipamentos]&par=[ {'name':'@UsuarioID','value':'${userID}'}]`);
+
+    if (data) {
+      setOriginalData(data);
+    }
 
     setLoading(false);
   };

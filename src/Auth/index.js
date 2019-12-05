@@ -10,7 +10,7 @@ const Auth = ({ onSuccess }) => {
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const [modalOpened, setModalOpened] = useState(false);
+  // const [modalOpened, setModalOpened] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,12 +26,13 @@ const Auth = ({ onSuccess }) => {
 
     setLoading(false);
 
-    if (!ok || !data[0] || !data[0].column1) {
+
+    if (!ok && !data[0] && !data[0].column1) {
       setError('Falha na autenticação');
       return;
     }
 
-    localStorage.setItem('StatusMachine@authenticated', true);
+    localStorage.setItem('StatusMachine@authenticated', data[0].column1);
 
     onSuccess(true);
   };

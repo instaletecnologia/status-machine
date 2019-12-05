@@ -1,1 +1,1 @@
-window.STATUS_MACHINE_BASE_URL = 'http://oraculo.cloudapp.net:88/api/get?cnx=CMISS&cmd=';
+window.STATUS_MACHINE_BASE_URL = 'http://localhost:88/api/get?cnx=CMISS&cmd=';
