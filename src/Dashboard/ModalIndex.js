@@ -27,7 +27,7 @@ const Modal = ({ indexes, isOpen, toogle }) => {
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title align-self-center mt-0">Índices do Equipamento</h5>
+              <h5 className="modal-title align-self-center mt-0">Índices do Tipo de Equipamento</h5>
               <button
                 type="button"
                 className="close"

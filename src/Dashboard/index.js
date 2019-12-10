@@ -179,41 +179,43 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="equipament-group">
-                  <div className="row m-0">
-                    {originalData.filter((equipamentType) => {
-                      if (!filterEquipamentType) return true;
-                      return parseInt(equipamentType.equipamentoTipoID) === parseInt(filterEquipamentType);
-                    }).filter((sectors) => {
-                      if (!filterSector) return true;
-                      return parseInt(sectors.equipamentoSetorID) === parseInt(filterSector);
-                    }).map(
-                      ({
-                        combustivelTelemetria,
-                        combustivelCalculo,
-                        conexao,
-                        conexaoTempoSegundos,
-                        categoriaTempoCod,
-                        destino,
-                        df,
-                        equipamentoID,
-                        equipamentoImg,
-                        horimetroTelemetria,
-                        horimetroManual,
-                        ocorrenciaDescricao,
-                        ocorrenciaTempoPermaneciaSegundos,
-                        origem,
-                        tagPrefixo,
-                        tagNumero,
-                        uf,
-                        infoHorimetroTelemetria,
-                        infoHorimetroManual,
-                        infoCombustivelTelemetria,
-                        infoCombustivelCalculo,
-                        comentarioAtividade,
-                        comentarioOcorrencia,
-                        comentarioOM,
-                        datahoraInicio,
-                      }) => (
+                  {originalData
+                    ? (
+                      <div className="row m-0">
+                        {originalData.filter((equipamentType) => {
+    if (!filterEquipamentType) return true;
+    return parseInt(equipamentType.equipamentoTipoID) === parseInt(filterEquipamentType);
+  }).filter((sectors) => {
+    if (!filterSector) return true;
+    return parseInt(sectors.equipamentoSetorID) === parseInt(filterSector);
+  }).map(
+    ({
+      combustivelTelemetria,
+      combustivelCalculo,
+      conexao,
+      conexaoTempoSegundos,
+      categoriaTempoCod,
+      destino,
+      df,
+      equipamentoID,
+      equipamentoImg,
+      horimetroTelemetria,
+      horimetroManual,
+      ocorrenciaDescricao,
+      ocorrenciaTempoPermaneciaSegundos,
+      origem,
+      tagPrefixo,
+      tagNumero,
+      uf,
+      infoHorimetroTelemetria,
+      infoHorimetroManual,
+      infoCombustivelTelemetria,
+      infoCombustivelCalculo,
+      comentarioAtividade,
+      comentarioOcorrencia,
+      comentarioOM,
+      datahoraInicio,
+    }) => (
                         <div
                           className="card card-dashboard position-relative"
                           key={equipamentoID}
@@ -385,9 +387,11 @@ const Dashboard = () => {
                             </div>
                           </div>
                         </div>
-                      ),
-                    )}
-                  </div>
+    ),
+  )}
+                                            </div>
+                    )
+                    : '' }
                 </div>
               </div>
               <div className="mt-5">
