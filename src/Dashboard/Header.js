@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 
 import ModalConfig from '../_components/ModalConfig';
 
-const Header = ({ equipamentTypes, handleChangeType, lastUpdate }) => {
+const Header = ({ equipamentTypes, handleChangeType, sectors, handleChangeSector, lastUpdate }) => {
   const [modalOpened, setModalOpened] = useState(false);
+
   const [type, setType] = useState(
+    localStorage.getItem('StatusMachine@filterEquipamentType') || '',
+  );
+
+  const [sector, setSector] = useState(
     localStorage.getItem('StatusMachine@filterEquipamentType') || '',
   );
 
@@ -20,6 +25,12 @@ const Header = ({ equipamentTypes, handleChangeType, lastUpdate }) => {
     localStorage.setItem('StatusMachine@filterEquipamentType', value);
     setType(value);
     handleChangeType(value);
+  };
+
+  const changeSector = ({ target: { value } }) => {
+    localStorage.setItem('StatusMachine@filterSector', value);
+    setSector(value);
+    handleChangeSector(value);
   };
 
   return (
@@ -44,11 +55,21 @@ const Header = ({ equipamentTypes, handleChangeType, lastUpdate }) => {
           </span>
           <ul className="list-unstyled topbar-nav float-right mb-0">
             <li>
-              <select className="custom-select mt-3" onChange={changeType} value={type}>
-                <option value="">Todos equipamentos</option>
+              <select className="custom-select mt-3" onChange={changeType} value={type} title="Selecione um tipo de equipamento para apresentar uma visão filtrada dos equipamentos">
+                <option value="">Todos os tipos de equipamentos</option>
                 {equipamentTypes.map(({ equipamentoTipoID, equipamentoTipoDescricao }) => (
                   <option key={equipamentoTipoID} value={equipamentoTipoID}>
                     {equipamentoTipoDescricao}
+                  </option>
+                ))}
+              </select>
+            </li>
+            <li>
+              <select className="custom-select mt-3" onChange={changeSector} value={sector} title="Selecione um setor para filtrar e apresentar os Índices por modelo">
+                <option value="">Selecione um setor</option>
+                {sectors.map(({ equipamentoSetorID, equipamentoSetorSigla }) => (
+                  <option key={equipamentoSetorID} value={equipamentoSetorID}>
+                    {equipamentoSetorSigla}
                   </option>
                 ))}
               </select>
