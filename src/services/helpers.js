@@ -6,7 +6,7 @@ export const formatSeconds = (seconds) => {
   seconds -= hours * (60 * 60);
   const minutes = Math.floor(seconds / 60);
   seconds -= minutes * 60;
-  return `${(days > 0 ? `${days}d ` : '') + hours}h ${minutes}m`;
+  return `${(days > 0 ? `${days}d ` : '') + hours}h ${minutes}m ${seconds}s`;
 };
 
 export const isInt = n => n % 1 === 0;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Modal = ({ isOpen, toogle }) => {
   const [reloadTime, setReloadTime] = useState(
-    localStorage.getItem('StatusMachine@reloadTime') || 10,
+    localStorage.getItem('StatusMachine@reloadTime') || 30,
   );
 
   useEffect(() => {
@@ -20,6 +20,11 @@ const Modal = ({ isOpen, toogle }) => {
 
     if (!reloadTime || parseInt(reloadTime) === 0) {
       alert('O intervalo precisa ser maior que zero!');
+      return;
+    }
+
+    if (!reloadTime || parseInt(reloadTime) < 30) {
+      alert('O intervalo precisa ser maior que 30!');
       return;
     }
 
@@ -68,7 +73,7 @@ const Modal = ({ isOpen, toogle }) => {
                     value={reloadTime}
                   />
                   <div className="input-group-append">
-                    <span className="input-group-text">minuto(s)</span>
+                    <span className="input-group-text">segundo(s)</span>
                   </div>
                 </div>
               </div>

@@ -65,7 +65,7 @@ const ShiftTable = ({ indexes, showLegend, showAverageDay }) => {
           {showAverageDay && (
             <tfoot>
               <tr>
-                <th scope="row">Dia</th>
+                <th scope="row">Dia atual</th>
                 {models.map((model) => {
                   let df;
                   let uf;

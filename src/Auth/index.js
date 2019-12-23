@@ -10,7 +10,7 @@ const Auth = ({ onSuccess }) => {
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const [modalOpened, setModalOpened] = useState(false);
+  // const [modalOpened, setModalOpened] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,22 +18,26 @@ const Auth = ({ onSuccess }) => {
     setError(null);
     setLoading(true);
 
-    const { data, ok } = await api.get(
-      `?${paramsUrl}[dbo].[spQDataStatusMachineUsuarioValidate]&par=[{'name':'@Login','value':'${login}'}, {'name':'@Senha','value':'${crypto
-        .MD5(password)
-        .toString()}'}]`,
-    );
+    try {
 
-    setLoading(false);
+      const { data }  = await api.get(
+        `?${paramsUrl}[dbo].[spQDataStatusMachineUsuarioValidate]&par=[{'name':'@Login','value':'${login}'}, {'name':'@Senha','value': '${crypto.MD5(password).toString()}'}]`,
+      );
 
-    if (!ok || !data[0] || !data[0].column1) {
-      setError('Falha na autenticação');
+      setLoading(false);
+
+      if (!data[0] && !data[0].usuarioID) {
+        setError('Falha na autenticação');
+        return;
+      }
+
+      localStorage.setItem('StatusMachine@authenticated', data[0].usuarioID);
+      onSuccess(true);
+    } catch (error) {
+      alert( `Não foi possivél conectar na api!`);
+      setLoading(false);
       return;
     }
-
-    localStorage.setItem('StatusMachine@authenticated', true);
-
-    onSuccess(true);
   };
 
   return (
