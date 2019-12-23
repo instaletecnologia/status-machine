@@ -49,20 +49,19 @@ const Dashboard = () => {
       if (data && !isNull(SetorID)) {
         setIndexes(data);
         setIndexesGroup(data);
+      } else {
+        setSectors([]);
+        setSectorGroup([]);
+        setIndexes([]);
+        setIndexesGroup([]);
       }
+    } else {
+      setSectors([]);
+      setSectorGroup([]);
+      setIndexes([]);
+      setIndexesGroup([]);
     }
   };
-
-  //  const fetchIndexesGroup = async () => {
-  //    const SetorID = localStorage.getItem('StatusMachine@filterSector');
-  //    const { data } = await api.get(
-  //      `?${paramsUrl}[dbo].[spQDataStatusMachineIndicesOperacionais]&par=[ {'name':'@Tipo','value':'T'} , {'name':'@SetorID','value':'${SetorID}'}]`,
-  //    );
-
-  //   if (data && SetorID) {
-  //      setIndexesGroup(data);
-  //    }
-  //  };
 
   const fetchEquipament = async (_loading = true) => {
     setLoading(_loading);
@@ -73,7 +72,6 @@ const Dashboard = () => {
 
     if (data) {
       setOriginalData(data);
-      fetchIndexes();
     } else {
       setOriginalData([]);
     }
@@ -92,13 +90,10 @@ const Dashboard = () => {
     setInterval(() => {
       setLastUpdate(moment().format('DD/MM/YYYY HH:mm:ss'));
       fetchEquipament(false);
-    // fetchIndexes();
-    // fetchIndexesGroup();
+      fetchIndexes();
     }, reloadTime * 1000);
-
     fetchEquipament();
-    // fetchIndexes();
-    // fetchIndexesGroup();
+    fetchIndexes();
   }, []);
 
   useEffect(() => {
@@ -111,7 +106,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     const types = [];
-
     _.forIn(equipamentGroup, (item, equipamentoTipoID) => types.push({
       equipamentoTipoID,
       equipamentoTipoDescricao: item[0].equipamentoTipoDescricao,
@@ -183,47 +177,47 @@ const Dashboard = () => {
                     ? (
                       <div className="row m-0">
                         {originalData.filter((equipamentType) => {
-    if (!filterEquipamentType) return true;
-    return parseInt(equipamentType.equipamentoTipoID) === parseInt(filterEquipamentType);
-  }).filter((sectors) => {
-    if (!filterSector) return true;
-    return parseInt(sectors.equipamentoSetorID) === parseInt(filterSector);
-  }).map(
-    ({
-      combustivelTelemetria,
-      combustivelCalculo,
-      conexao,
-      conexaoTempoSegundos,
-      categoriaTempoCod,
-      destino,
-      df,
-      equipamentoID,
-      equipamentoImg,
-      horimetroTelemetria,
-      horimetroManual,
-      ocorrenciaDescricao,
-      ocorrenciaTempoPermaneciaSegundos,
-      origem,
-      tagPrefixo,
-      tagNumero,
-      uf,
-      infoHorimetroTelemetria,
-      infoHorimetroManual,
-      infoCombustivelTelemetria,
-      infoCombustivelCalculo,
-      comentarioAtividade,
-      comentarioOcorrencia,
-      comentarioOM,
-      datahoraInicio,
-    }) => (
-                        <div
-                          className="card card-dashboard position-relative"
-                          key={equipamentoID}
-                          onMouseEnter={() => setPopoverId(equipamentoID)}
-                          onMouseLeave={() => setPopoverId(null)}
-                          onTouchStart={() => setPopoverId(popoverId ? null : equipamentoID)}
-                        >
-                          {popoverId === equipamentoID && (
+                          if (!filterEquipamentType) return true;
+                          return parseInt(equipamentType.equipamentoTipoID) === parseInt(filterEquipamentType);
+                        }).filter((sectors) => {
+                          if (!filterSector) return true;
+                          return parseInt(sectors.equipamentoSetorID) === parseInt(filterSector);
+                        }).map(
+                          ({
+                            combustivelTelemetria,
+                            combustivelCalculo,
+                            conexao,
+                            conexaoTempoSegundos,
+                            categoriaTempoCod,
+                            destino,
+                            df,
+                            equipamentoID,
+                            equipamentoImg,
+                            horimetroTelemetria,
+                            horimetroManual,
+                            ocorrenciaDescricao,
+                            ocorrenciaTempoPermaneciaSegundos,
+                            origem,
+                            tagPrefixo,
+                            tagNumero,
+                            uf,
+                            infoHorimetroTelemetria,
+                            infoHorimetroManual,
+                            infoCombustivelTelemetria,
+                            infoCombustivelCalculo,
+                            comentarioAtividade,
+                            comentarioOcorrencia,
+                            comentarioOM,
+                            datahoraInicio,
+                          }) => (
+                            <div
+        className="card card-dashboard position-relative"
+        key={equipamentoID}
+        onMouseEnter={() => setPopoverId(equipamentoID)}
+        onMouseLeave={() => setPopoverId(null)}
+        onTouchStart={() => setPopoverId(popoverId ? null : equipamentoID)}
+      >
+        {popoverId === equipamentoID && (
                           <div
                             className="popover fade show bs-popover-bottom"
                             style={{
@@ -263,7 +257,7 @@ const Dashboard = () => {
                             </div>
                           </div>
                           )}
-                          <div className="card-header">
+        <div className="card-header">
                             <div className="row">
                               <div className="col-7 p-0">
                                 <h4
@@ -296,7 +290,7 @@ const Dashboard = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="card-body d-flex justify-content-center align-items-center">
+        <div className="card-body d-flex justify-content-center align-items-center">
                             {equipamentoImg && (
                             <img
                               alt="Imagem do Cadastro do Equipamento"
@@ -306,7 +300,7 @@ const Dashboard = () => {
                             />
                             )}
                           </div>
-                          <div className="card-footer">
+        <div className="card-footer">
                             <div className="row">
                               <div className="col-12 d-flex justify-content-between">
                                 <span
@@ -386,10 +380,10 @@ const Dashboard = () => {
                               </div>
                             </div>
                           </div>
-                        </div>
-    ),
-  )}
-                                            </div>
+      </div>
+                          ),
+                        )}
+                      </div>
                     )
                     : '' }
                 </div>

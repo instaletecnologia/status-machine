@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 import ModalConfig from '../_components/ModalConfig';
 
-const Header = ({ equipamentTypes, handleChangeType, sectors, handleChangeSector, lastUpdate }) => {
+const Header = ({
+  equipamentTypes, handleChangeType, sectors, handleChangeSector, lastUpdate,
+}) => {
   const [modalOpened, setModalOpened] = useState(false);
 
   const [type, setType] = useState(
@@ -11,7 +13,7 @@ const Header = ({ equipamentTypes, handleChangeType, sectors, handleChangeSector
   );
 
   const [sector, setSector] = useState(
-    localStorage.getItem('StatusMachine@filterEquipamentType') || '',
+    localStorage.getItem('StatusMachine@filterSector') || '',
   );
 
   const handleModalOpened = () => setModalOpened(!modalOpened);
@@ -53,6 +55,7 @@ const Header = ({ equipamentTypes, handleChangeType, sectors, handleChangeSector
             {' '}
             {lastUpdate}
           </span>
+
           <ul className="list-unstyled topbar-nav float-right mb-0">
             <li>
               <select className="custom-select mt-3" onChange={changeType} value={type} title="Selecione um tipo de equipamento para apresentar uma visão filtrada dos equipamentos">
@@ -124,5 +127,6 @@ Header.propTypes = {
   ).isRequired,
   handleChangeType: PropTypes.func.isRequired,
 };
+
 
 export default Header;
