@@ -242,15 +242,11 @@ const Dashboard = () => {
                               <br />
                               {destino}
                               <br />
-                              <b>Comentário na atividade:</b>
-                              <br />
-                              {comentarioAtividade}
-                              <br />
                               <b>Comentário na ocorrência:</b>
                               <br />
                               {comentarioOcorrencia}
                               <br />
-                              <b>Comentário na orderm de manutenção:</b>
+                              <b>Comentário na ordem de manutenção:</b>
                               <br />
                               {comentarioOM}
                               <br />
