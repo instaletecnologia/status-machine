@@ -12,6 +12,12 @@ import ModalIndex from './ModalIndex';
 import ShiftTable from './ShiftTable';
 
 const Dashboard = () => {
+  const [presentingOcorrence, setPresentingOcorrence] = useState(false);
+  const [presentingDestiny, setPresentingDestiny] = useState(false);
+  const [presentingSource, setPresentingSource] = useState(false);
+  const [presentingCan, setPresentingCan] = useState(false);
+  const [presentingDFUF, setPresentingDFUF] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(moment().format('DD/MM/YYYY HH:mm:ss'));
 
@@ -78,6 +84,38 @@ const Dashboard = () => {
 
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (window.STATUS_MACHINE_CONFIG_PRESENTING_THE_OCCURRENCE === 'YES') {
+      setPresentingOcorrence(true);
+    } else {
+      setPresentingOcorrence(false);
+    }
+
+    if (window.STATUS_MACHINE_CONFIG_PRESENTING_THE_DESTINY === 'YES') {
+      setPresentingDestiny(true);
+    } else {
+      setPresentingDestiny(false);
+    }
+
+    if (window.STATUS_MACHINE_CONFIG_PRESENTING_THE_SOURCE === 'YES') {
+      setPresentingSource(true);
+    } else {
+      setPresentingSource(false);
+    }
+
+    if (window.STATUS_MACHINE_CONFIG_PRESENTING_INFO_CAN === 'YES') {
+      setPresentingCan(true);
+    } else {
+      setPresentingCan(false);
+    }
+
+    if (window.STATUS_MACHINE_CONFIG_PRESENTING_INFO_DF_UF === 'YES') {
+      setPresentingDFUF(true);
+    } else {
+      setPresentingDFUF(false);
+    }
+  }, []);
 
   useEffect(() => {
     let reloadTime = localStorage.getItem('StatusMachine@reloadTime');
@@ -211,172 +249,202 @@ const Dashboard = () => {
                             datahoraInicio,
                           }) => (
                             <div
-        className="card card-dashboard position-relative"
-        key={equipamentoID}
-        onMouseEnter={() => setPopoverId(equipamentoID)}
-        onMouseLeave={() => setPopoverId(null)}
-        onTouchStart={() => setPopoverId(popoverId ? null : equipamentoID)}
-      >
-        {popoverId === equipamentoID && (
-                          <div
-                            className="popover fade show bs-popover-bottom"
-                            style={{
-                              width: '270px', height: '300px', position: 'absolute', top: '150px',
-                            }}
-                          >
-                            <div className="arrow" style={{ left: '200px' }} />
-                            <div className="popover-body font-13">
-                              <b>Ocorrência:</b>
-                              <br />
-                              {ocorrenciaDescricao}
-                              <br />
-                              <b>Desde:</b>
-                              <br />
-                              {datahoraInicio ? `${moment(datahoraInicio).format('DD/MM/YYYY H:mm:ss')} (${formatSeconds(ocorrenciaTempoPermaneciaSegundos)})` : null}
-                              <br />
-                              <b>Origem:</b>
-                              <br />
-                              {origem}
-                              <br />
-                              <b>Destino:</b>
-                              <br />
-                              {destino}
-                              <br />
-                              <b>Comentário na ocorrência:</b>
-                              <br />
-                              {comentarioOcorrencia}
-                              <br />
-                              <b>Comentário na ordem de manutenção:</b>
-                              <br />
-                              {comentarioOM}
-                              <br />
-                            </div>
-                          </div>
-                          )}
-        <div className="card-header">
-                            <div className="row">
-                              <div className="col-7 p-0">
-                                <h4
-                                  className="m-0 font-16"
-                                  title="TAG  Cadastrada para o Equipamento"
-                                >
-                                  {`${tagPrefixo}-${tagNumero}`}
-                                </h4>
+                              className="card card-dashboard position-relative"
+                              key={equipamentoID}
+                              onMouseEnter={() => setPopoverId(equipamentoID)}
+                              onMouseLeave={() => setPopoverId(null)}
+                              onTouchStart={() => setPopoverId(popoverId ? null : equipamentoID)}
+                            >
+                              {popoverId === equipamentoID && (
+                              <div
+                                className="popover fade show bs-popover-bottom"
+                                style={{
+                                  width: '270px', height: '300px', position: 'absolute', top: '150px',
+                                }}
+                              >
+                                <div className="arrow" style={{ left: '200px' }} />
+                                <div className="popover-body font-13">
+                                  <b>Ocorrência:</b>
+                                  <br />
+                                  {ocorrenciaDescricao}
+                                  <br />
+                                  <b>Desde:</b>
+                                  <br />
+                                  {datahoraInicio ? `${moment(datahoraInicio).format('DD/MM/YYYY H:mm:ss')} (${formatSeconds(ocorrenciaTempoPermaneciaSegundos)})` : null}
+                                  <br />
+                                  <b>Origem:</b>
+                                  <br />
+                                  {origem}
+                                  <br />
+                                  <b>Destino:</b>
+                                  <br />
+                                  {destino}
+                                  <br />
+                                  <b>Comentário na ocorrência:</b>
+                                  <br />
+                                  {comentarioOcorrencia}
+                                  <br />
+                                  <b>Comentário na ordem de manutenção:</b>
+                                  <br />
+                                  {comentarioOM}
+                                  <br />
+                                </div>
                               </div>
-                              <div className="col-5 d-flex justify-content-center align-items-center p-0">
-                                <div
-                                  className="icon-info justify-content-center align-items-center"
-                                  title={
+                              )}
+                              <div className="card-header">
+                                <div className="row">
+                                  <div className="col-7 p-0">
+                                    <h4
+                                      className="m-0 font-16"
+                                      title="TAG  Cadastrada para o Equipamento"
+                                    >
+                                      {`${tagPrefixo}-${tagNumero}`}
+                                    </h4>
+                                  </div>
+                                  <div className="col-5 d-flex justify-content-center align-items-center p-0">
+                                    <div
+                                      className="icon-info justify-content-center align-items-center"
+                                      title={
                                       conexao
                                         ? 'Equipamento conectado e sincronizando informações'
                                         : 'Tempo em que o equipamento esteve sem conexão ou fora da área de cobertura'
                                     }
-                                >
-                                  <i
-                                    className={`mdi mdi-wifi text-${
-                                      conexao ? 'success' : 'danger'
-                                    } font-16`}
-                                  />
-                                  {!conexao && (
-                                  <span className="font-10 pt-2 text-danger">
-                                    {formatSeconds(conexaoTempoSegundos)}
-                                  </span>
-                                  )}
+                                    >
+                                      <i
+                                        className={`mdi mdi-wifi text-${
+                                          conexao ? 'success' : 'danger'
+                                        } font-16`}
+                                      />
+                                      {!conexao && (
+                                      <span className="font-10 pt-2 text-danger">
+                                        {formatSeconds(conexaoTempoSegundos)}
+                                      </span>
+                                      )}
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-        <div className="card-body d-flex justify-content-center align-items-center">
-                            {equipamentoImg && (
-                            <img
-                              alt="Imagem do Cadastro do Equipamento"
-                              title="Imagem do Cadastro do Equipamento"
-                              style={{ maxWidth: '150px', maxHeight: '50px' }}
-                              src={`data:image/jpeg;base64, ${equipamentoImg}`}
-                            />
-                            )}
-                          </div>
-        <div className="card-footer">
-                            <div className="row">
-                              <div className="col-12 d-flex justify-content-between">
-                                <span
-                                  className="badge badge-info badge-pill"
-                                  title="Disponibilidade Física do Equipamento no dia"
-                                >
-                                  {`DF ${isInt(df) ? df : parseFloat(df).toFixed(2)}%`}
-                                </span>
-                                <span
-                                  className="badge badge-info badge-pill"
-                                  title="Utilização Física do Equipamento no dia"
-                                >
-                                  {`UF ${isInt(uf) ? uf : parseFloat(uf).toFixed(2)}%`}
-                                </span>
-                                {categoriaTempoCod.substr(0, 2) === 'HM' && (
-                                <span
-                                  className="badge badge-danger badge-pill"
-                                  title="Tempo em Manutenção"
-                                >
-                                  {formatSeconds(ocorrenciaTempoPermaneciaSegundos)}
-                                </span>
+                              <div className="card-body d-flex justify-content-center align-items-center">
+                                {equipamentoImg && (
+                                <img
+                                  alt="Imagem do Cadastro do Equipamento"
+                                  title="Imagem do Cadastro do Equipamento"
+                                  style={{ maxWidth: '150px', maxHeight: '50px' }}
+                                  src={`data:image/jpeg;base64, ${equipamentoImg}`}
+                                />
                                 )}
                               </div>
-                            </div>
-                            <div className="row">
-                              <div className="col-12 d-flex  justify-content-between">
-                                <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroTelemetria}>
-                                  <span className="font-14 text-info">
-                                    {horimetroTelemetria}
-                                  </span>
-                                </div>
-                                <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroManual}>
-                                  <span className="font-14 text-warning">
-                                    {horimetroManual}
-                                  </span>
-                                </div>
-                                <div className="d-flex justify-content-center align-items-center">
-                                  <div className="icon-info" title={infoCombustivelTelemetria}>
-                                    <i>
-                                      <img
-                                        alt=""
-                                        height="13"
-                                        src={`assets/images/bomb-${
-                                          combustivelTelemetria > 15 ? 'info' : 'danger'
-                                        }.png`}
-                                      />
-                                    </i>
-                                    <span
-                                      className={`font-12 text-${
-                                        combustivelTelemetria > 15 ? 'info' : 'danger'
-                                      }`}
-                                    >
-                                      {`${isInt(combustivelTelemetria) ? combustivelTelemetria : parseFloat(combustivelTelemetria).toFixed(2)}%`}
-                                    </span>
+                              <div className="card-footer">
+
+                                <div className="row">
+
+                                  <div className="popover-body font-8">
+
+                                    {presentingSource && (
+                                    <>
+                                      <b>Origem:</b>
+                                      <br />
+                                      {origem ? `${origem.substring(15, 0)} ...` : ' '}
+                                    </>
+                                    )}
+
+                                    {presentingDestiny && (
+                                    <>
+                                      <br />
+                                      <b>Destino:</b>
+                                      <br />
+                                      {destino ? `${destino.substring(15, 0)} ...` : ' '}
+                                    </>
+                                    )}
+
+                                    {presentingOcorrence && (
+                                    <>
+                                      <br />
+                                      <b>Ocorrência:</b>
+                                      <br />
+                                      {ocorrenciaDescricao ? `${ocorrenciaDescricao.substring(15, 0)} ...` : ' '}
+                                    </>
+                                    )}
                                   </div>
-                                </div>
-                                <div className="d-flex justify-content-center align-items-center">
-                                  <div className="icon-info" title={infoCombustivelCalculo}>
-                                    <i>
-                                      <img
-                                        alt=""
-                                        height="13"
-                                        src={`assets/images/bomb-${
-                                          combustivelCalculo > 15 ? 'warning' : 'danger'
-                                        }.png`}
-                                      />
-                                    </i>
+                                  {presentingDFUF && (
+                                  <div className="col-12 d-flex justify-content-between">
                                     <span
-                                      className={`font-12 text-${
-                                        combustivelCalculo > 15 ? 'warning' : 'danger'
-                                      }`}
+                                      className="badge badge-info badge-pill"
+                                      title="Disponibilidade Física do Equipamento no dia"
                                     >
-                                      {`${isInt(combustivelCalculo) ? combustivelCalculo : parseFloat(combustivelCalculo).toFixed(2)}%`}
+                                      {`DF ${isInt(df) ? df : parseFloat(df).toFixed(2)}%`}
                                     </span>
+                                    <span
+                                      className="badge badge-info badge-pill"
+                                      title="Utilização Física do Equipamento no dia"
+                                    >
+                                      {`UF ${isInt(uf) ? uf : parseFloat(uf).toFixed(2)}%`}
+                                    </span>
+                                    {categoriaTempoCod.substr(0, 2) === 'HM' && (
+                                    <span
+                                      className="badge badge-danger badge-pill"
+                                      title="Tempo em Manutenção"
+                                    >
+                                      {formatSeconds(ocorrenciaTempoPermaneciaSegundos)}
+                                    </span>
+                                    )}
                                   </div>
+                                  )}
+                                </div>
+                                <div className="row">
+                                {presentingCan && (
+                                <div className="col-12 d-flex  justify-content-between">
+                                    <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroTelemetria}>
+                                      <span className="font-14 text-info">
+                                        {horimetroTelemetria}
+                                      </span>
+                                    </div>
+                                    <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroManual}>
+                                      <span className="font-14 text-warning">
+                                        {horimetroManual}
+                                      </span>
+                                    </div>
+                                    <div className="d-flex justify-content-center align-items-center">
+                                      <div className="icon-info" title={infoCombustivelTelemetria}>
+                                        <i>
+                                          <img
+                                            alt=""
+                                            height="13"
+                                            src={`assets/images/bomb-${combustivelTelemetria > 15 ? 'info' : 'danger'}.png`}
+                                          />
+                                        </i>
+                                        <span
+                                          className={`font-12 text-${
+                                            combustivelTelemetria > 15 ? 'info' : 'danger'
+                                          }`}
+                                        >
+                                          {`${isInt(combustivelTelemetria) ? combustivelTelemetria : parseFloat(combustivelTelemetria).toFixed(2)}%`}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div className="d-flex justify-content-center align-items-center">
+                                      <div className="icon-info" title={infoCombustivelCalculo}>
+                                        <i>
+                                          <img
+                                            alt=""
+                                            height="13"
+                                            src={`assets/images/bomb-${combustivelCalculo > 15 ? 'warning' : 'danger'}.png`}
+                                          />
+                                        </i>
+                                        <span
+                                          className={`font-12 text-${
+                                            combustivelCalculo > 15 ? 'warning' : 'danger'
+                                          }`}
+                                        >
+                                          {`${isInt(combustivelCalculo) ? combustivelCalculo : parseFloat(combustivelCalculo).toFixed(2)}%`}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
                                 </div>
                               </div>
                             </div>
-                          </div>
-      </div>
                           ),
                         )}
                       </div>
