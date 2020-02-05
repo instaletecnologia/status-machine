@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import ModalConfig from '../_components/ModalConfig';
@@ -15,6 +15,7 @@ const Header = ({
   const [sector, setSector] = useState(
     localStorage.getItem('StatusMachine@filterSector') || '',
   );
+
 
   const handleModalOpened = () => setModalOpened(!modalOpened);
 
