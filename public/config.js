@@ -17,3 +17,8 @@ window.STATUS_MACHINE_CONFIG_PRESENTING_INFO_CAN = 'YES';
 //Caso altere o valor para YES será apresentado a UF e DF
 //atual
 window.STATUS_MACHINE_CONFIG_PRESENTING_INFO_DF_UF = 'YES';
+
+
+//Caso altere o valor para YES será apresentado apenas Horimetro manual
+//atual
+window.STATUS_MACHINE_CONFIG_PRESENTING_INFO_HORIMETER_MANUAL = 'NO';
