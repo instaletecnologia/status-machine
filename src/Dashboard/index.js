@@ -17,6 +17,7 @@ const Dashboard = () => {
   const [presentingSource, setPresentingSource] = useState(false);
   const [presentingCan, setPresentingCan] = useState(false);
   const [presentingDFUF, setPresentingDFUF] = useState(false);
+  const [presentingHorimeterManual, setPresentingHorimeterManual] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(moment().format('DD/MM/YYYY HH:mm:ss'));
@@ -115,6 +116,13 @@ const Dashboard = () => {
     } else {
       setPresentingDFUF(false);
     }
+
+    if (window.STATUS_MACHINE_CONFIG_PRESENTING_INFO_HORIMETER_MANUAL === 'YES') {
+      setPresentingHorimeterManual(true);
+    } else {
+      setPresentingHorimeterManual(false);
+    }
+
   }, []);
 
   useEffect(() => {
@@ -392,56 +400,77 @@ const Dashboard = () => {
                                   )}
                                 </div>
                                 <div className="row">
-                                {presentingCan && (
-                                <div className="col-12 d-flex  justify-content-between">
-                                    <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroTelemetria}>
-                                      <span className="font-14 text-info">
-                                        {horimetroTelemetria}
-                                      </span>
-                                    </div>
-                                    <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroManual}>
-                                      <span className="font-14 text-warning">
-                                        {horimetroManual}
-                                      </span>
-                                    </div>
-                                    <div className="d-flex justify-content-center align-items-center">
-                                      <div className="icon-info" title={infoCombustivelTelemetria}>
-                                        <i>
-                                          <img
+                                  {presentingCan && (
+                                    <div className="col-12 d-flex  justify-content-between">
+                                    {presentingHorimeterManual === false ? <>
+                                    {parseFloat(horimetroTelemetria) === parseFloat(horimetroManual) ? (
+                                      <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroTelemetria}>
+                                        <span className="font-14 text-info">
+                                          {horimetroTelemetria}
+                                        </span>
+                                      </div> )
+                                     :
+                                      (
+                                      <>
+                                      <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroTelemetria}>
+                                        <span className="font-14 text-info">
+                                          {horimetroTelemetria}
+                                        </span>
+                                      </div>
+                                      <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroManual}>
+                                        <span className="font-14 text-warning">
+                                          {horimetroManual}
+                                        </span>
+                                      </div>
+                                      </>
+                                      )
+                                     } </>
+                                     :
+                                     <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroManual}>
+                                        <span className="font-14 text-warning">
+                                          {horimetroManual}
+                                        </span>
+                                      </div>
+                                     }
+
+                                      <div className="d-flex justify-content-center align-items-center">
+                                        <div className="icon-info" title={infoCombustivelTelemetria}>
+                                          <i>
+                                            <img
                                             alt=""
                                             height="13"
                                             src={`assets/images/bomb-${combustivelTelemetria > 15 ? 'info' : 'danger'}.png`}
                                           />
-                                        </i>
-                                        <span
-                                          className={`font-12 text-${
+                                          </i>
+                                          <span
+                                            className={`font-12 text-${
                                             combustivelTelemetria > 15 ? 'info' : 'danger'
                                           }`}
-                                        >
-                                          {`${isInt(combustivelTelemetria) ? combustivelTelemetria : parseFloat(combustivelTelemetria).toFixed(2)}%`}
-                                        </span>
+                                          >
+                                            {`${isInt(combustivelTelemetria) ? combustivelTelemetria : parseFloat(combustivelTelemetria).toFixed(2)}%`}
+                                          </span>
+                                        </div>
                                       </div>
-                                    </div>
-                                    <div className="d-flex justify-content-center align-items-center">
-                                      <div className="icon-info" title={infoCombustivelCalculo}>
-                                        <i>
-                                          <img
+                                      <div className="d-flex justify-content-center align-items-center">
+                                        <div className="icon-info" title={infoCombustivelCalculo}>
+                                          <i>
+                                            <img
                                             alt=""
                                             height="13"
                                             src={`assets/images/bomb-${combustivelCalculo > 15 ? 'warning' : 'danger'}.png`}
                                           />
-                                        </i>
-                                        <span
-                                          className={`font-12 text-${
+                                          </i>
+                                          <span
+                                            className={`font-12 text-${
                                             combustivelCalculo > 15 ? 'warning' : 'danger'
                                           }`}
-                                        >
-                                          {`${isInt(combustivelCalculo) ? combustivelCalculo : parseFloat(combustivelCalculo).toFixed(2)}%`}
-                                        </span>
+                                          >
+                                            {`${isInt(combustivelCalculo) ? combustivelCalculo : parseFloat(combustivelCalculo).toFixed(2)}%`}
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                )}
+                                  )}
                                 </div>
                               </div>
                             </div>
