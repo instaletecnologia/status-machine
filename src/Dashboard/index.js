@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
+import StringMask from 'string-mask';
 
 import { isNull } from 'util';
 import api, { paramsUrl } from '../services/api';
@@ -45,6 +46,7 @@ const Dashboard = () => {
   const [indexesGroup, setIndexesGroup] = useState([]);
 
   const [popoverId, setPopoverId] = useState();
+
 
   const fetchIndexes = async () => {
     const SetorID = localStorage.getItem('StatusMachine@filterSector');
@@ -122,7 +124,6 @@ const Dashboard = () => {
     } else {
       setPresentingHorimeterManual(false);
     }
-
   }, []);
 
   useEffect(() => {
@@ -402,50 +403,56 @@ const Dashboard = () => {
                                 <div className="row">
                                   {presentingCan && (
                                     <div className="col-12 d-flex  justify-content-between">
-                                    {presentingHorimeterManual === false ? <>
-                                    {parseFloat(horimetroTelemetria) === parseFloat(horimetroManual) ? (
-                                      <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroTelemetria}>
-                                        <span className="font-14 text-info">
-                                          {horimetroTelemetria}
-                                        </span>
-                                      </div> )
-                                     :
-                                      (
-                                      <>
-                                      <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroTelemetria}>
-                                        <span className="font-14 text-info">
-                                          {horimetroTelemetria}
-                                        </span>
-                                      </div>
-                                      <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroManual}>
-                                        <span className="font-14 text-warning">
-                                          {horimetroManual}
-                                        </span>
-                                      </div>
-                                      </>
+                                      {presentingHorimeterManual === false ? (
+                                        <>
+                                          {parseFloat(horimetroTelemetria) === parseFloat(horimetroManual) ? (
+                                            <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroTelemetria}>
+                                              <span className="font-14 text-info">
+                                                {(horimetroTelemetria.toString().replace(/^\D+/g, '').replace('.', '').replace(',', ''))}
+                                              </span>
+                                            </div>
+                                          )
+                                            : (
+                                              <>
+                                                <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroTelemetria}>
+                                                  <span className="font-14 text-info">
+                                                  {(horimetroTelemetria.toString().replace(/^\D+/g, '').replace('.', ','))}
+                                                  </span>
+                                                </div>
+                                                <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroManual}>
+                                                  <span className="font-14 text-warning">
+                                                  {(horimetroManual.toString().replace(/^\D+/g, '').replace('.', ','))}
+                                                  </span>
+                                                </div>
+                                              </>
+                                            )
+                                     }
+                                          {' '}
+
+                                        </>
                                       )
-                                     } </>
-                                     :
-                                     <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroManual}>
-                                        <span className="font-14 text-warning">
-                                          {horimetroManual}
-                                        </span>
-                                      </div>
+                                        : (
+                                          <div className=" d-flex justify-content-center align-items-center" title={infoHorimetroManual}>
+                                            <span className="font-14 text-warning">
+                                            {(horimetroManual.toString().replace(/^\D+/g, '').replace('.', '').replace(',', ''))}
+                                            </span>
+                                          </div>
+                                        )
                                      }
 
                                       <div className="d-flex justify-content-center align-items-center">
                                         <div className="icon-info" title={infoCombustivelTelemetria}>
                                           <i>
                                             <img
-                                            alt=""
-                                            height="13"
-                                            src={`assets/images/bomb-${combustivelTelemetria > 15 ? 'info' : 'danger'}.png`}
-                                          />
+                                              alt=""
+                                              height="13"
+                                              src={`assets/images/bomb-${combustivelTelemetria > 15 ? 'info' : 'danger'}.png`}
+                                            />
                                           </i>
                                           <span
                                             className={`font-12 text-${
-                                            combustivelTelemetria > 15 ? 'info' : 'danger'
-                                          }`}
+                                              combustivelTelemetria > 15 ? 'info' : 'danger'
+                                            }`}
                                           >
                                             {`${isInt(combustivelTelemetria) ? combustivelTelemetria : parseFloat(combustivelTelemetria).toFixed(2)}%`}
                                           </span>
@@ -455,15 +462,15 @@ const Dashboard = () => {
                                         <div className="icon-info" title={infoCombustivelCalculo}>
                                           <i>
                                             <img
-                                            alt=""
-                                            height="13"
-                                            src={`assets/images/bomb-${combustivelCalculo > 15 ? 'warning' : 'danger'}.png`}
-                                          />
+                                              alt=""
+                                              height="13"
+                                              src={`assets/images/bomb-${combustivelCalculo > 15 ? 'warning' : 'danger'}.png`}
+                                            />
                                           </i>
                                           <span
                                             className={`font-12 text-${
-                                            combustivelCalculo > 15 ? 'warning' : 'danger'
-                                          }`}
+                                              combustivelCalculo > 15 ? 'warning' : 'danger'
+                                            }`}
                                           >
                                             {`${isInt(combustivelCalculo) ? combustivelCalculo : parseFloat(combustivelCalculo).toFixed(2)}%`}
                                           </span>
